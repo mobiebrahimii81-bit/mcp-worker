@@ -1,0 +1,40 @@
+packages:
+  - "agent-think"
+  - "examples/*"
+  - "!examples/next"
+  - "examples/next/*"
+  - "!examples/next/harnesses"
+  - "examples/next/harnesses/*"
+  - "packages/*"
+  - "voice-providers/*"
+  - "guides/*"
+  - "experimental/*"
+  - "openai-sdk/*"
+  - "site/*"
+linkWorkspacePackages: true
+preferWorkspacePackages: true
+patchedDependencies:
+  "@chonkiejs/chunk@0.9.3": patches/@chonkiejs+chunk+0.9.3.patch
+  vitest-browser-react@2.2.0: patches/vitest-browser-react+2.2.0.patch
+allowBuilds:
+  # pi-recovery fixture deps (@earendil-works/pi-ai); the faux provider path
+  # never invokes these, so their postinstall/native builds are not needed.
+  "@google/genai": false
+  protobufjs: false
+  "@mongodb-js/zstd": true
+  better-sqlite3: true
+  core-js-pure: true
+  esbuild: true
+  node-liblzma: true
+  nx: true
+  sharp: true
+  workerd: true
+  # Transitive dep of @cloudflare/tanstack-ai (tanstack-recovery harness). The
+  # Workers AI binding path never uses the OpenRouter SDK, so its build is skipped.
+  "@openrouter/sdk": false
+  # agent-think's unit tests mock GitHub over MSW; its postinstall is not needed.
+  msw: false
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - "@cloudflare/*"
+  - "@typescript/*"
